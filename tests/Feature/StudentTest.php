@@ -89,4 +89,36 @@ class StudentTest extends TestCase
 
         $response->assertSuccessful();
     }
+
+    public function test_can_fetch_students_via_json_api(): void
+    {
+        Student::factory()->count(3)->create();
+
+        $response = $this->getJson('/api/students');
+
+        $response->assertOk()
+            ->assertJsonCount(3)
+            ->assertJsonStructure([
+                '*' => [
+                    'id',
+                    'name',
+                    'nim',
+                    'email',
+                    'study_program',
+                    'is_active',
+                ],
+            ]);
+    }
+
+    public function test_api_allows_cors_from_vue_laptop_origin(): void
+    {
+        Student::factory()->create();
+
+        $response = $this->withHeaders([
+            'Origin' => 'http://localhost:5173',
+        ])->getJson('/api/students');
+
+        $response->assertOk()
+            ->assertHeader('Access-Control-Allow-Origin', '*');
+    }
 }
