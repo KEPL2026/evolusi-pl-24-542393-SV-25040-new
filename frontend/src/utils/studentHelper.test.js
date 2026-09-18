@@ -4,8 +4,7 @@ import { isValidNim, filterActiveStudents, formatStudentBadge } from './studentH
 describe('studentHelper Utility (Logic Test)', () => {
   describe('isValidNim', () => {
     it('validates correct SV UGM NIM format', () => {
-      // Sengaja digagalkan untuk membuktikan pipeline CI/CD frontend berhenti merah
-      expect(isValidNim('24/542393/SV/25040')).toBe(false)
+      expect(isValidNim('24/542393/SV/25040')).toBe(true)
       expect(isValidNim('23/512345/SV/20001')).toBe(true)
     })
 
